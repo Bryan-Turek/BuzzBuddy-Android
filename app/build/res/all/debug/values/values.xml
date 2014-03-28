@@ -690,6 +690,15 @@
     <item name="action_bar_activity_content" type="id"/>
     <item name="action_menu_divider" type="id"/>
     <item name="action_menu_presenter" type="id"/>
+    <!-- From: file:/home/bryan/AndroidStudioProjects/BuzzBuddy/app/src/main/res/values/ids.xml -->
+    <eat-comment />
+
+    <item name="event_id" type="id"/>
+    <item name="event_name" type="id"/>
+    <item name="event_owner" type="id"/>
+    <!-- From: file:/home/bryan/AndroidStudioProjects/BuzzBuddy/app/build/exploded-bundles/ComAndroidSupportAppcompatV71901.aar/res/values/values.xml -->
+    <eat-comment />
+
     <item name="home" type="id"/>
     <item name="progress_circular" type="id"/>
     <item name="progress_horizontal" type="id"/>
@@ -752,9 +761,7 @@
     <!-- From: file:/home/bryan/AndroidStudioProjects/BuzzBuddy/app/src/main/res/values/strings.xml -->
     <eat-comment />
 
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
+    <string name="update_feed">Events</string>
     <!-- From: file:/home/bryan/AndroidStudioProjects/BuzzBuddy/app/src/main/res/values/styles.xml -->
     <eat-comment />
 

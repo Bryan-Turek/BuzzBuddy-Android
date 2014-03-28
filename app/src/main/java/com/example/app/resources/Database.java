@@ -35,7 +35,7 @@ public class Database extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_LOGIN_TABLE = "CREATE TABLE " + TABLE_LOGIN + "("
-                + KEY_ID + " INTEGER PRIMARY KEY,"
+                + KEY_ID + " TEXT PRIMARY KEY,"
                 + KEY_NAME + " TEXT,"
                 + KEY_EMAIL + " TEXT UNIQUE,"
                 + KEY_PHONE + " TEXT,"
@@ -57,7 +57,7 @@ public class Database extends SQLiteOpenHelper {
     /**
      * Storing user details in database
      * */
-    public void addUser(int id, String name, String email, String phone, String created_at, String role) {
+    public void addUser(String id, String name, String email, String phone, String role) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();

@@ -17,6 +17,8 @@ import android.widget.TextView;
 
 import com.example.app.models.User;
 import com.example.app.resources.Global;
+import com.example.app.resources.fragments.EventsFragment;
+import com.example.app.resources.fragments.NavigationDrawerFragment;
 
 public class UpdateFeed extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -36,6 +38,9 @@ public class UpdateFeed extends ActionBarActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Global.setContext(getApplicationContext());
+        Global.initDatabase();
 
         if(user.getIsLoggedIn()) {
             setContentView(R.layout.activity_update_feed);
@@ -59,23 +64,24 @@ public class UpdateFeed extends ActionBarActivity
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        // update the main content by replacing fragments
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-                .commit();
+        new Thread(new Runnable() {
+            public void run() {
+                // update the main content by replacing fragments
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                if(fragmentManager.findFragmentById(R.id.container) == null) {
+                    EventsFragment fragment = new EventsFragment();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.container, fragment)
+                            .commit();
+                }
+            }
+        });
     }
 
     public void onSectionAttached(int number) {
         switch (number) {
             case 1:
-                mTitle = getString(R.string.title_section1);
-                break;
-            case 2:
-                mTitle = getString(R.string.title_section2);
-                break;
-            case 3:
-                mTitle = getString(R.string.title_section3);
+                mTitle = getString(R.string.update_feed);
                 break;
         }
     }

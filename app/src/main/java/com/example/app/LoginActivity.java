@@ -19,18 +19,15 @@ import android.widget.TextView;
 import com.example.app.models.User;
 import com.example.app.resources.Global;
 
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
 /**
  * Activity which displays a login screen to the user, offering registration as
  * well.
  */
 public class LoginActivity extends Activity {
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "turek.bryan@gmail.com:theget11"
-    };
 
     /**
      * The default email to populate the email field with.
@@ -53,7 +50,7 @@ public class LoginActivity extends Activity {
     private View mLoginStatusView;
     private TextView mLoginStatusMessageView;
 
-    private final User user = Global.getUser();
+    private User user = Global.getUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,6 +147,8 @@ public class LoginActivity extends Activity {
             // perform the user login attempt.
             mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
             showProgress(true);
+            user.setEmail(mEmail);
+            user.setPassword(mPassword);
             mAuthTask = new UserLoginTask();
             mAuthTask.execute((Void) null);
         }
@@ -199,49 +198,34 @@ public class LoginActivity extends Activity {
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class UserLoginTask extends AsyncTask<Void, Void, Void> {
         @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+        protected Void doInBackground(Void... params) {
 
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
+            Global.getClient().login(user, new Callback() {
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
+                @Override
+                public void success(Object o, Response response) {
+                    // Set user to logged in.
+                    user = (User) o;
+                    user.login();
+                    Global.setUser(user);
+
+                    // Change to logged in view
+                    Intent feed = new Intent(getApplicationContext(), UpdateFeed.class);
+                    feed.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(feed);
+                    // Closing dashboard screen
+                    finish();
                 }
-            }
 
-            // TODO: register the new account here.
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                // Set user to logged in.
-                user.login();
-
-                // Change to logged in view
-                Intent feed = new Intent(getApplicationContext(), UpdateFeed.class);
-                feed.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(feed);
-                // Closing dashboard screen
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
+                @Override
+                public void failure(RetrofitError retrofitError) {
+                    mPasswordView.setError(getString(R.string.error_incorrect_password));
+                    mPasswordView.requestFocus();
+                }
+            });
+            return null;
         }
 
         @Override

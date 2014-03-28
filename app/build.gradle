@@ -24,4 +24,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:19.0.1'
     compile files('src/main/libs/resting-0.8-dev-release-android.jar')
     compile files('src/main/libs/gson-2.2.4.jar')
+    compile files('src/main/libs/retrofit-1.5.0.jar')
 }

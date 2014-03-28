@@ -73,6 +73,7 @@
     <orderEntry type="library" exported="" name="resting-0.8-dev-release-android" level="project" />
     <orderEntry type="library" exported="" name="gson-2.2.4" level="project" />
     <orderEntry type="library" exported="" name="support-v4-19.0.1" level="project" />
+    <orderEntry type="library" exported="" name="retrofit-1.5.0" level="project" />
     <orderEntry type="library" exported="" name="ComAndroidSupportAppcompatV71901.aar" level="project" />
     <orderEntry type="library" exported="" name="ComAndroidSupportGridlayoutV71901.aar" level="project" />
   </component>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="event_name" type="id" />
+    <item name="event_id" type="id" />
+    <item name="event_owner" type="id" />
+</resources>
