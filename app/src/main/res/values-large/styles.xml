@@ -7,4 +7,5 @@
         <item name="android:padding">16dp</item>
     </style>
 
+    <color name="actionbar_background">#000000</color>
 </resources>

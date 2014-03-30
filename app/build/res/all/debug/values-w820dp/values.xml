@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- From: file:/home/bryan/AndroidStudioProjects/BuzzBuddy/app/src/main/res/values-w820dp/styles.xml -->
+    <eat-comment />
+
+    <color name="actionbar_background">#000000</color>
     <!-- From: file:/home/bryan/AndroidStudioProjects/BuzzBuddy/app/src/main/res/values-w820dp/dimens.xml -->
     <eat-comment />
 

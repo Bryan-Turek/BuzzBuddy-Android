@@ -7,6 +7,12 @@
     <bool name="abc_action_bar_embed_tabs_pre_jb">true</bool>
     <bool name="abc_config_allowActionMenuItemTextWithIcon">true</bool>
     <bool name="abc_split_action_bar_is_narrow">false</bool>
+    <!-- From: file:/home/bryan/AndroidStudioProjects/BuzzBuddy/app/src/main/res/values-large/styles.xml -->
+    <eat-comment />
+
+    <color name="actionbar_background">#000000</color>
+    <!-- From: file:/home/bryan/AndroidStudioProjects/BuzzBuddy/app/build/exploded-bundles/ComAndroidSupportAppcompatV71901.aar/res/values-large/values.xml -->
+    <eat-comment />
 
     <dimen name="abc_config_prefDialogWidth">440dp</dimen>
     <dimen name="abc_search_view_text_min_width">192dip</dimen>

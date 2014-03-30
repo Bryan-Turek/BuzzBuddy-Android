@@ -72,10 +72,18 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="resting-0.8-dev-release-android" level="project" />
     <orderEntry type="library" exported="" name="gson-2.2.4" level="project" />
+    <orderEntry type="library" exported="" name="ComGoogleAndroidGmsPlayServices4030.aar" level="project" />
     <orderEntry type="library" exported="" name="support-v4-19.0.1" level="project" />
     <orderEntry type="library" exported="" name="retrofit-1.5.0" level="project" />
     <orderEntry type="library" exported="" name="ComAndroidSupportAppcompatV71901.aar" level="project" />
     <orderEntry type="library" exported="" name="ComAndroidSupportGridlayoutV71901.aar" level="project" />
+    <orderEntry type="library" name="Gradle: support-v4-19.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: retrofit-1.5.0" level="project" />
+    <orderEntry type="library" name="Gradle: ComGoogleAndroidGmsPlayServices4030.aar" level="project" />
+    <orderEntry type="library" name="Gradle: ComAndroidSupportAppcompatV71901.aar" level="project" />
+    <orderEntry type="library" name="Gradle: gson-2.2.4" level="project" />
+    <orderEntry type="library" name="Gradle: ComAndroidSupportGridlayoutV71901.aar" level="project" />
+    <orderEntry type="library" name="Gradle: resting-0.8-dev-release-android" level="project" />
   </component>
 </module>
 

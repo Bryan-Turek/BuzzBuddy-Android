@@ -1,34 +1,49 @@
 package com.example.app;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.app.models.User;
 import com.example.app.resources.Global;
-import com.example.app.resources.fragments.EventsFragment;
+import com.example.app.resources.fragments.EventsListFragment;
 import com.example.app.resources.fragments.NavigationDrawerFragment;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.LatLng;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class UpdateFeed extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks,
+        android.location.LocationListener {
 
     private final User user = Global.getUser();
-
+    private final static int
+            CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
+
+    private EventsListTask mEventsListTask = null;
+    private View mContainer = null;
+    private View mLoadStatus = null;
+
+    private GoogleMap mMap = null;
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -40,18 +55,37 @@ public class UpdateFeed extends ActionBarActivity
         super.onCreate(savedInstanceState);
 
         Global.setContext(getApplicationContext());
-        Global.initDatabase();
+        Global.newInstance((LocationManager) getSystemService(LOCATION_SERVICE));
 
         if(user.getIsLoggedIn()) {
             setContentView(R.layout.activity_update_feed);
             mNavigationDrawerFragment = (NavigationDrawerFragment)
-                    getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
+            getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
             mTitle = getTitle();
 
             // Set up the drawer.
             mNavigationDrawerFragment.setUp(
                     R.id.navigation_drawer,
                     (DrawerLayout) findViewById(R.id.drawer_layout));
+
+            mContainer = findViewById(R.id.container);
+            mLoadStatus = findViewById(R.id.load_status);
+
+            mMap = ((MapFragment) getFragmentManager()
+                    .findFragmentById(R.id.map)).getMap();
+
+            LocationManager locMan = Global.getLocationManager();
+            Location location = locMan.getLastKnownLocation(locMan.getBestProvider(new Criteria(), true));
+            LatLng mLocation;
+            if(location != null) {
+                mLocation = new LatLng(location.getLatitude(), location.getLongitude());
+            } else {
+                mLocation = new LatLng(39.63, -79.956);
+            }
+
+            mMap.setMyLocationEnabled(true);
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLocation, 13));
+
         } else {
             Intent login = new Intent(getApplicationContext(), LoginActivity.class);
             login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -64,18 +98,8 @@ public class UpdateFeed extends ActionBarActivity
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        new Thread(new Runnable() {
-            public void run() {
-                // update the main content by replacing fragments
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                if(fragmentManager.findFragmentById(R.id.container) == null) {
-                    EventsFragment fragment = new EventsFragment();
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.container, fragment)
-                            .commit();
-                }
-            }
-        });
+        mEventsListTask = new EventsListTask();
+        mEventsListTask.execute();
     }
 
     public void onSectionAttached(int number) {
@@ -113,52 +137,63 @@ public class UpdateFeed extends ActionBarActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        return id == R.id.action_settings || super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+
     }
 
     /**
-     * A placeholder fragment containing a simple view.
+     * Represents an asynchronous login/registration task used to authenticate
+     * the user.
      */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
+    public class EventsListTask extends AsyncTask<Void, Void, Void> {
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
+        private EventsListTask mEventsListTask = null;
 
-        public PlaceholderFragment() {
+        @Override
+        protected Void doInBackground(Void... voids) {
+            Global.getClient().events(new Callback() {
+
+                @Override
+                public void success(Object o, Response response) {
+                    // update the main content by replacing fragments
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    EventsListFragment fragment = new EventsListFragment();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.container, fragment)
+                            .commit();
+                }
+
+                @Override
+                public void failure(RetrofitError retrofitError) {
+
+                }
+            });
+            return null;
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_update_feed, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
-            return rootView;
-        }
-
-        @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-            ((UpdateFeed) activity).onSectionAttached(
-                    getArguments().getInt(ARG_SECTION_NUMBER));
+        protected void onCancelled() {
+            mEventsListTask = null;
+            //showProgress(false);
         }
     }
-
 }

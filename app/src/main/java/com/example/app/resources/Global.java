@@ -2,6 +2,7 @@ package com.example.app.resources;
 
 import android.app.Application;
 import android.content.Context;
+import android.location.LocationManager;
 
 import com.example.app.models.User;
 
@@ -21,6 +22,7 @@ public class Global extends Application {
 
     private static Context context;
     private static Database database;
+    private static LocationManager locationManager = null;
 
     public static User getUser() {
         return user;
@@ -29,8 +31,9 @@ public class Global extends Application {
         user = newUser;
     }
 
-    public static void initDatabase() {
+    public static void newInstance(LocationManager locMan) {
         database = new Database(context);
+        locationManager = locMan;
     }
     public static Database getDatabase() {
         return database;
@@ -49,5 +52,9 @@ public class Global extends Application {
 
     public static String getRootUrl() {
         return API_URL;
+    }
+
+    public static LocationManager getLocationManager() {
+        return locationManager;
     }
 }
