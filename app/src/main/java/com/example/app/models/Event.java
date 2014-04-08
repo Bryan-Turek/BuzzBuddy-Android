@@ -10,8 +10,8 @@ public class Event {
     @SerializedName("_id")
     private String _id;
 
-    @SerializedName("owner")
-    private String owner;
+    @SerializedName("description")
+    private String description;
 
     @SerializedName("name")
     private String name;
@@ -28,7 +28,7 @@ public class Event {
         return _id;
     }
 
-    public String getOwner() {
-        return owner;
+    public String getDescription() {
+        return description;
     }
 }

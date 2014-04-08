@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$" external.system.id="GRADLE" external.system.module.group="" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="android-gradle" name="Android-Gradle">
+      <configuration>
+        <option name="GRADLE_PROJECT_PATH" value=":" />
+      </configuration>
+    </facet>
+    <facet type="android" name="Android">
+      <configuration>
+        <option name="ALLOW_USER_CONFIGURATION" value="false" />
+      </configuration>
+    </facet>
+  </component>
   <component name="NewModuleRootManager" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/build/classes/main" />
     <output-test url="file://$MODULE_DIR$/build/classes/test" />
@@ -10,6 +22,13 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Gradle: ComAndroidSupportGridlayoutV71901.aar" level="project" />
+    <orderEntry type="library" name="Gradle: gson-2.2.4" level="project" />
+    <orderEntry type="library" name="Gradle: retrofit-1.5.0" level="project" />
+    <orderEntry type="library" name="Gradle: ComGoogleAndroidGmsPlayServices4030.aar" level="project" />
+    <orderEntry type="library" name="Gradle: ComAndroidSupportAppcompatV71901.aar" level="project" />
+    <orderEntry type="library" name="Gradle: resting-0.8-dev-release-android" level="project" />
+    <orderEntry type="library" name="Gradle: support-v4-19.0.1" level="project" />
   </component>
 </module>
 

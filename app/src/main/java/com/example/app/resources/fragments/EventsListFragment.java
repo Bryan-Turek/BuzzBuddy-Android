@@ -5,11 +5,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.app.R;
 import com.example.app.models.Event;
 import com.example.app.resources.Global;
-import com.example.app.resources.adapters.EventArrayAdapter;
 
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class EventsListFragment extends ListFragment {
             @Override
             public void success(Object o, Response response) {
                 List<Event> events = (List<Event>) o;
-                EventArrayAdapter adapter = new EventArrayAdapter(getActivity(), events);
+                ArrayAdapter<Event> adapter = new ArrayAdapter(Global.getContext(), R.layout.event_item, events);
                 setListAdapter(adapter);
             }
 

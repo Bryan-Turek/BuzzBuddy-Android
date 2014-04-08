@@ -5,8 +5,12 @@ import android.content.Context;
 import android.location.LocationManager;
 
 import com.example.app.models.User;
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.GsonBuilder;
+import com.google.gson.LongSerializationPolicy;
 
 import retrofit.RestAdapter;
+import retrofit.converter.GsonConverter;
 
 /**
  * Created by root on 3/23/14.
@@ -16,6 +20,16 @@ public class Global extends Application {
     private static final String API_URL = "http://67.165.80.24:8000";
     private static RestAdapter restAdapter = new RestAdapter.Builder()
             .setEndpoint(API_URL)
+            .setConverter(
+                    new GsonConverter(
+                            new GsonBuilder()
+                                    .setFieldNamingPolicy(
+                                            FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                                    .setFieldNamingStrategy(
+                                            FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                                    .setLongSerializationPolicy(
+                                            LongSerializationPolicy.STRING)
+                                    .create()))
             .build();
     private static HJClient client = restAdapter.create(HJClient.class);
     private static User user = new User();

@@ -46,7 +46,11 @@
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
                 android:hint="@string/prompt_email"
-                android:layout_weight="0.09" />
+                android:layout_weight="0.09"
+                android:background="#ffffff"
+                android:layout_marginBottom="8dip"
+                android:paddingLeft="10dip"
+                android:paddingRight="10dip" />
 
             <EditText
                 android:id="@+id/password"
@@ -59,7 +63,10 @@
                 android:imeActionLabel="@string/action_sign_in_short"
                 android:imeActionId="@+id/login"
                 android:imeOptions="actionUnspecified"
-                android:layout_weight="0.09" />
+                android:layout_weight="0.09"
+                android:background="#fff"
+                android:paddingLeft="10dip"
+                android:paddingRight="10dip" />
 
             <Button android:id="@+id/sign_in_button"
                 android:layout_width="fill_parent"
@@ -69,7 +76,9 @@
                 android:paddingLeft="32dp"
                 android:paddingRight="32dp"
                 android:layout_gravity="right"
-                android:layout_weight="0.09" />
+                android:layout_weight="0.09"
+                android:textColor="#FFFFFF"
+                android:background="#34495e" />
 
         </LinearLayout>
 

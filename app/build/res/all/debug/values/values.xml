@@ -81,8 +81,9 @@
     <!-- From: file:/home/bryan/AndroidStudioProjects/BuzzBuddy/app/src/main/res/values/styles.xml -->
     <eat-comment />
 
-    <color name="actionbar_background">#FFFFFF</color>
-    <color name="actionbar_textcolor">#000000</color>
+    <color name="actionbar_background">#2980b9</color>
+    <color name="actionbar_textcolor">#FFFFFF</color>
+    <color name="android_background">#dedede</color>
     <!-- From: file:/home/bryan/AndroidStudioProjects/BuzzBuddy/app/build/exploded-bundles/ComGoogleAndroidGmsPlayServices4030.aar/res/values/colors.xml -->
     <eat-comment />
 
@@ -882,6 +883,10 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:padding">16dp</item>
+    </style>
+
+    <style name="MainContainer">
+        <item name="android:background">@color/android_background</item>
     </style>
 
     <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">

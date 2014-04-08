@@ -17,5 +17,6 @@
         android:layout_height="match_parent"
         android:id="@+id/listView"
         android:choiceMode="singleChoice"
-        tools:listitem="@android:layout/simple_list_item_2" />
+        tools:listitem="@android:layout/simple_list_item_2"
+        android:background="#dedede" />
 </LinearLayout><!-- From: file:/home/bryan/AndroidStudioProjects/BuzzBuddy/app/src/main/res/layout/fragment_update_feed.xml -->

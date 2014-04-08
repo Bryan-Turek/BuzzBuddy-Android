@@ -32,6 +32,7 @@
     <!-- As the main content view, the view below consumes the entire
          space available using match_parent in both dimensions. -->
     <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+        style="@style/MainContainer"
         android:id="@+id/container"
         android:orientation="vertical"
         android:layout_width="fill_parent"
@@ -39,18 +40,14 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:weightSum="1">
 
-        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/map"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:name="com.google.android.gms.maps.MapFragment" />
-
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/listView"
+            tools:listitem="@layout/event_item"
             android:choiceMode="singleChoice"
-            tools:listitem="@android:layout/simple_list_item_2" />
+            android:dividerHeight="0dp"
+            android:divider="@null" />
     </LinearLayout>
 
     <!-- android:layout_gravity="start" tells DrawerLayout to treat

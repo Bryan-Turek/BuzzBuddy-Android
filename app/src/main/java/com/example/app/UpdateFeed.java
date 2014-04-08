@@ -1,27 +1,24 @@
 package com.example.app;
 
 import android.content.Intent;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.ListView;
 
+import com.example.app.models.Event;
 import com.example.app.models.User;
 import com.example.app.resources.Global;
-import com.example.app.resources.fragments.EventsListFragment;
+import com.example.app.resources.adapters.EventArrayAdapter;
 import com.example.app.resources.fragments.NavigationDrawerFragment;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.LatLng;
+
+import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -40,10 +37,11 @@ public class UpdateFeed extends ActionBarActivity
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
     private EventsListTask mEventsListTask = null;
-    private View mContainer = null;
-    private View mLoadStatus = null;
 
-    private GoogleMap mMap = null;
+    private ListView mListView = null;
+    private EventArrayAdapter mEventAdapter = null;
+
+//    private GoogleMap mMap = null;
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -68,23 +66,28 @@ public class UpdateFeed extends ActionBarActivity
                     R.id.navigation_drawer,
                     (DrawerLayout) findViewById(R.id.drawer_layout));
 
-            mContainer = findViewById(R.id.container);
-            mLoadStatus = findViewById(R.id.load_status);
+            mListView = (ListView) findViewById(R.id.listView);
 
-            mMap = ((MapFragment) getFragmentManager()
-                    .findFragmentById(R.id.map)).getMap();
+            mEventsListTask = new EventsListTask();
+            mEventsListTask.execute();
 
-            LocationManager locMan = Global.getLocationManager();
-            Location location = locMan.getLastKnownLocation(locMan.getBestProvider(new Criteria(), true));
-            LatLng mLocation;
-            if(location != null) {
-                mLocation = new LatLng(location.getLatitude(), location.getLongitude());
-            } else {
-                mLocation = new LatLng(39.63, -79.956);
-            }
+//            mContainer = findViewById(R.id.container);
+//            mLoadStatus = findViewById(R.id.load_status);
 
-            mMap.setMyLocationEnabled(true);
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLocation, 13));
+//            mMap = ((MapFragment) getFragmentManager()
+//                    .findFragmentById(R.id.map)).getMap();
+//
+//            LocationManager locMan = Global.getLocationManager();
+//            Location location = locMan.getLastKnownLocation(locMan.getBestProvider(new Criteria(), true));
+//            LatLng mLocation;
+//            if(location != null) {
+//                mLocation = new LatLng(location.getLatitude(), location.getLongitude());
+//            } else {
+//                mLocation = new LatLng(39.63, -79.956);
+//            }
+//
+//            mMap.setMyLocationEnabled(true);
+//            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLocation, 13));
 
         } else {
             Intent login = new Intent(getApplicationContext(), LoginActivity.class);
@@ -98,8 +101,8 @@ public class UpdateFeed extends ActionBarActivity
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        mEventsListTask = new EventsListTask();
-        mEventsListTask.execute();
+//        mEventsListTask = new EventsListTask();
+//        mEventsListTask.execute();
     }
 
     public void onSectionAttached(int number) {
@@ -174,12 +177,8 @@ public class UpdateFeed extends ActionBarActivity
 
                 @Override
                 public void success(Object o, Response response) {
-                    // update the main content by replacing fragments
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    EventsListFragment fragment = new EventsListFragment();
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.container, fragment)
-                            .commit();
+                    mEventAdapter = new EventArrayAdapter(getBaseContext(), (List<Event>) o);
+                    mListView.setAdapter(mEventAdapter);
                 }
 
                 @Override

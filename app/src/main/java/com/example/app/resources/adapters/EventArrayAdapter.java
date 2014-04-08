@@ -14,25 +14,13 @@ import java.util.List;
 
 public class EventArrayAdapter extends ArrayAdapter<Event> {
     private final LayoutInflater mInflater;
+    private final List<Event> mEvents;
 
     public EventArrayAdapter(Context context, List<Event> data) {
-        super(context, android.R.layout.simple_list_item_2);
-        mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        clear();
-        if (data != null) {
-            for (Event event : data) {
-                add(event);
-            }
-        }
-    }
+        super(context, R.layout.event_item, data);
+        mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mEvents = data;
 
-    public void setData(List<Event> data) {
-        clear();
-        if (data != null) {
-            for (Event event : data) {
-                add(event);
-            }
-        }
     }
 
     /**
@@ -41,16 +29,12 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
     @Override public View getView(int position, View convertView, ViewGroup parent) {
         View view;
 
-        if (convertView == null) {
-            view = mInflater.inflate(R.layout.event_item, parent, false);
-        } else {
-            view = convertView;
-        }
+        view = mInflater.inflate(R.layout.event_item, parent, false);
 
-        Event event = getItem(position);
+        Event event = mEvents.get(position);
         ((TextView)view.findViewById(R.id.event_name)).setText(event.getName());
         ((TextView)view.findViewById(R.id.event_id)).setText(event.getId());
-        ((TextView)view.findViewById(R.id.event_owner)).setText(event.getOwner());
+        ((TextView)view.findViewById(R.id.event_owner)).setText(event.getDescription());
 
         return view;
     }
